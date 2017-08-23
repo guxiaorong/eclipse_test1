@@ -37,7 +37,6 @@ class StuManager
 	public void Manage()
 	{
 		int i;
-		System.out.println("0：退出系统");
 		System.out.println("1：输入学号得到成绩");
 		System.out.println("2：输入成绩得到学号");
 		System.out.println("3：统计各个分数阶段人数");
@@ -45,13 +44,10 @@ class StuManager
 		System.out.println("请输入操作模式：");
 		Scanner sc=new Scanner(System.in );
 		i=Integer.parseInt(sc.nextLine());
-		while(true)
+		while(i>0)
 		{
 			switch(i)
 			{
-			case 0: 
-				System.out.println("退出管理系统！！");
-				break;
 			case 1: 
 				Mode1();
 				break;
@@ -68,10 +64,9 @@ class StuManager
 				System.out.println("操作模式error：");		
 			}		
 			System.out.println("输入操作模式：");
-			i=Integer.parseInt(sc.nextLine());
-			
+			i=Integer.parseInt(sc.nextLine());		
 		}
-		
+		System.out.println("退出管理系统！！");
 	}
 
 	
@@ -143,13 +138,67 @@ class StuManager
 	{
 		int Level[]=new int[5];
 		System.out.println("进入模式3：计算分数各等级的人数！");
+		for(int i=0;i<Scores.length;i++)
+		{
+			if(Scores[i][1]<60.00)
+			{	 
+				Level[0]++;
+			}
+			else if(Scores[i][1]<70.00)
+			{	 
+				Level[1]++;
+			}
+			else if(Scores[i][1]<80.00)
+			{	 
+				Level[2]++;
+			}
+			else if(Scores[i][1]<90.00)
+			{	 
+				Level[3]++;
+			}
+			else 
+			{	 
+				Level[4]++;
+			}
+		}
+		System.out.println("各等级的人数为：");
+		System.out.println("不合格:"+Level[0]+" 合格:"+Level[1]+" 中:"+Level[2]+" 良:"+Level[3]+" 优:"+Level[4]);
 		return Level;
 	}
 		
 	public void Mode4()
 	{
 		System.out.println("进入模式4：根据学号删除成绩！");
+		int flag2;
+		int num;
+		Scanner sc;
+		System.out.println("输入学号：");
+		sc=new Scanner(System.in );
+		num=Integer.parseInt(sc.nextLine());
+		while(num!=0)
+		{
+			flag2=0;
+			for(int i=0;i<Scores.length;i++)
+			{
+				if(Scores[i][0]==num)
+				{	 
+					Scores[i][1]=0;
+					System.out.println("学号"+Scores[i][0]+"的成绩删除");
+					flag2=1;
+					break;
+				}
+			}
+			if(flag2 ==0)	
+			{
+				System.out.println("学号"+num+"未找到！！");
+			}
+			System.out.println("输入学号(0退出该模式)：");
+			num=Integer.parseInt(sc.nextLine());
+		}
+		System.out.println("退出模式4！");
+		
 	}
+	
 	
 	
 }
