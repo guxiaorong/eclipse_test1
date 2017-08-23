@@ -15,7 +15,9 @@ public class Demo_test1 {
 		GetScore getscore;
 		try {
 			getscore = new GetScore();
-			System.out.println("last fen="+getscore.getavege());
+			System.out.println("最后得分="+getscore.getavege());
+			System.out.println("最菜的评委是："+(getscore.getBad()+1));
+			System.out.println("最好的评委是："+(getscore.getGood()+1));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -31,11 +33,18 @@ class GetScore
 	
     public GetScore() throws IOException 
 	{
-		Scanner sc=new Scanner(System.in);
-		System.out.println("请输入评委的人数！");
-		size= Integer.parseInt(sc.nextLine());
-		System.out.println("size="+size);	
-    	
+    	Scanner sc=null;
+		try {
+			sc=new Scanner(System.in);
+			System.out.println("请输入评委的人数！");
+			size= Integer.parseInt(sc.nextLine());
+			System.out.println("size="+size);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("ERROR");
+			e.printStackTrace();
+		}
+		
 		scores =new double[size];
 		InputStreamReader str=new InputStreamReader(System.in );
 		BufferedReader br=new BufferedReader(str);
@@ -101,11 +110,45 @@ class GetScore
 			}
 		}
 		Avescore=Sumscore/(scores.length-2);
-		System.out.println("pass Max score="+scores[Maxdex]);
-		System.out.println("pass Min score="+scores[Mindex]);
-		System.out.println("average score="+Avescore);
+//		System.out.println("pass Max score="+scores[Maxdex]);
+//		System.out.println("pass Min score="+scores[Mindex]);
+//		System.out.println("average score="+Avescore);
 		return Avescore;
 	}
 	
-	  
+	public int getBad()
+	{
+		double avege=this.getavege();
+		int badindex=0;
+		double bad=Math.abs(scores[0]-avege);
+		double temp=0f;
+		for(int i=1;i<scores.length;i++)
+		{
+			temp=Math.abs(scores[i]-avege);
+			if(bad< temp)
+			{
+				badindex=i;
+				bad=temp;
+			}
+		}
+		return badindex;
+	}
+	
+	public int getGood()
+	{
+		double avege=this.getavege();
+		int goodindex=0;
+		double good=Math.abs(scores[0]-avege);
+		double temp=0f;
+		for(int i=1;i<scores.length;i++)
+		{
+			temp=Math.abs(scores[i]-avege);
+			if(good> temp)
+			{
+				goodindex=i;
+				good=temp;
+			}			
+		}
+		return goodindex;
+	}
 }
