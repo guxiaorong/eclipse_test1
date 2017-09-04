@@ -4,7 +4,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import java.awt.Graphics;
-import java.awt.Paint;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -40,15 +39,16 @@ class MyPanel extends JPanel implements KeyListener
 	public void paint(Graphics g)
 	{
 		super.paint(g);
-		g.fillOval(x, y, 10, 10);
+		g.fillOval(x, y, 10, 10);	
 	}
+	@SuppressWarnings("static-access")
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		System.out.println("°´ÏÂ"+e.getKeyChar());
 		if(e.getKeyCode()==KeyEvent.VK_DOWN)
 		{
-			y++;
+			y++;		
 		}
 		else if(e.getKeyCode()==KeyEvent.VK_UP)
 		{	
@@ -62,6 +62,8 @@ class MyPanel extends JPanel implements KeyListener
 		{	
 			x++;
 		}
+		System.out.println("getModifiers:"+e.getModifiers());
+		System.out.println("getModifiers:"+e.getModifiersEx());
 		this.repaint();
 	}
 
