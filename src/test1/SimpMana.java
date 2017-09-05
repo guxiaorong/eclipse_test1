@@ -1,9 +1,9 @@
 package test1;
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.util.Scanner;
  
 
-public class Deno_test2 {
+public class SimpMana {
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub

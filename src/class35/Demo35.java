@@ -1,8 +1,12 @@
 package class35;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 
 @SuppressWarnings("serial")
@@ -50,11 +54,13 @@ public class Demo35 extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getActionCommand().equals("black"))
+		//if(e.getActionCommand().equals("black"))
+		if(e.getSource()==jb1)
 		{
 			jp1.setBackground(Color.black );			
 		}
-		else if(e.getActionCommand().equals("red"))
+		//else if(e.getActionCommand().equals("red"))
+		else if(e.getSource()==jb2)
 		{
 			jp1.setBackground(Color.red);
 		}

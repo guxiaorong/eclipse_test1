@@ -1,8 +1,9 @@
 package stumanager;
 
-import java.sql.*;
-import java.util.*;
-import javax.swing.table.*;
+import java.sql.ResultSet;
+import java.util.Vector;
+
+import javax.swing.table.AbstractTableModel;
 
 public class StuModel extends AbstractTableModel{
 
