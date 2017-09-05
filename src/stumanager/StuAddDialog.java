@@ -1,7 +1,11 @@
 package stumanager;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dialog;
+import java.awt.Frame;
+import java.awt.GridLayout;
 import java.awt.event.*;
+
 import javax.swing.*;
 
 public class StuAddDialog extends JDialog implements ActionListener{
@@ -29,18 +33,18 @@ public class StuAddDialog extends JDialog implements ActionListener{
 		jp1=new JPanel();
 		jp2=new JPanel();
 		jp1.setLayout(new GridLayout(6,2));
-		JLabel jl1=new JLabel("学号:");
-		JLabel jl2=new JLabel("姓名:");
-		JLabel jl3=new JLabel("性别:");
-		JLabel jl4=new JLabel("年龄:");
-		JLabel jl5=new JLabel("籍贯:");
-		JLabel jl6=new JLabel("系别:");
-		JTextField jtf1=new JTextField(10);
-		JTextField jtf2=new JTextField(10);
-		JTextField jtf3=new JTextField(10);
-		JTextField jtf4=new JTextField(10);
-		JTextField jtf5=new JTextField(10);
-		JTextField jtf6=new JTextField(10);
+		jl1=new JLabel("学号:");
+		jl2=new JLabel("姓名:");
+		jl3=new JLabel("性别:");
+		jl4=new JLabel("年龄:");
+		jl5=new JLabel("籍贯:");
+		jl6=new JLabel("系别:");
+        jtf1=new JTextField(10);
+		jtf2=new JTextField(10);
+		jtf3=new JTextField(10);
+		jtf4=new JTextField(10);
+		jtf5=new JTextField(10);
+		jtf6=new JTextField(10);
 		jb1=new JButton("添加");
 		jb2=new JButton("重置");
 		
@@ -58,18 +62,46 @@ public class StuAddDialog extends JDialog implements ActionListener{
 		jp1.add(jtf6);
 		jp2.add(jb1);
 		jp2.add(jb2);
+		jb1.addActionListener(this);
+		jb2.addActionListener(this);
 		this.add(jp1,BorderLayout.NORTH);
 		this.add(jp2,BorderLayout.SOUTH);
+ 
 		
 		this.setSize(150,210);
 		this.setVisible(true);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+		if(e.getSource()==jb1)
+		{
+			System.out.println("添加操作内容");
+			String sql="insert into stus values(?,?,?,?,?,?)";
+			String []paras=new String[6];
+			paras[0]=this.jtf1.getText().trim();
+			paras[1]=this.jtf2.getText().trim();
+			paras[2]=this.jtf3.getText().trim();
+			paras[3]=this.jtf4.getText().trim();
+			paras[4]=this.jtf5.getText().trim();
+			paras[5]=this.jtf6.getText().trim();
+			StuModel smModel=new StuModel();
+			smModel.UpdStu(sql, paras);
+			this.setVisible(false);
+		}
+		else if(e.getSource()==jb2)
+		{
+			System.out.println("重置内容");
+			jtf1.setText("");
+			jtf2.setText("");		 
+			jtf3.setText("");
+			jtf4.setText("");
+			jtf5.setText("");
+			jtf6.setText("");
+			//jp1.repaint();
+		}
 	}
 	
 

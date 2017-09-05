@@ -1,11 +1,11 @@
 package class35;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class Demo35_1 extends JFrame{
 

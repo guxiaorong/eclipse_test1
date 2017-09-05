@@ -3,17 +3,22 @@ package stumanager;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-public class StuManager extends JFrame implements ActionListener {
+
+public class Mana_noModel extends JFrame implements ActionListener{
 
 	/**
 	 * @param args
@@ -29,15 +34,15 @@ public class StuManager extends JFrame implements ActionListener {
 	JButton jb2=null;
 	JButton jb3=null;
 	JButton jb4=null;
-	StuModel smModel=new StuModel();
-	
+
+	Vector rowdata,columNames;
+	 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		StuManager stuManager=new StuManager();
-		
+		Mana_noModel mana_noModel=new Mana_noModel();
+
 	}
 
-	public StuManager()
+	public Mana_noModel()
 	{		
 		/*NORTH*/
 		jp1=new JPanel();
@@ -60,11 +65,56 @@ public class StuManager extends JFrame implements ActionListener {
 		jp2.add(jb3);
 		jp2.add(jb4);
 		
-		smModel=new StuModel();
-		smModel.QuyStu("select * from stus");
-		jtTable=new JTable(smModel);
-		//jtTable.setModel(smModel); 
-    	jsp=new JScrollPane(jtTable);	
+
+        String url = "jdbc:odbc:Access2010";	
+    	ResultSet rs=null;
+    	Statement sm =null;
+    	Connection ct=null;
+
+        columNames=new Vector();
+		columNames.add("学号");
+		columNames.add("姓名");
+		columNames.add("性别");
+		columNames.add("年龄");
+		columNames.add("籍贯");
+		columNames.add("系别");
+        rowdata=new Vector();
+        try {
+    		Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");	
+        	ct= DriverManager.getConnection(url);
+        	String sql="select * from stus";
+    		sm = ct.createStatement();
+            rs = sm.executeQuery(sql);
+    		while(rs.next())
+    		{
+    			Vector hang=new Vector();
+    			hang.add(rs.getString(1));
+    			hang.add(rs.getString(2));
+    			hang.add(rs.getString(3));
+    			hang.add(rs.getInt(4));
+    			hang.add(rs.getString(5));
+    			hang.add(rs.getString(6));
+    			rowdata.add(hang);
+    		}
+    		jtTable=new JTable(rowdata,columNames);	
+    		jsp=new JScrollPane(jtTable);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally
+		{
+			try {
+				if(ct!=null) ct.close();
+				if(sm!=null) sm.close();
+				if(rs!=null) rs.close();
+			}
+			catch (Exception e2) {
+				// TODO: handle exception
+				e2.printStackTrace();
+			}
+		}
+			
 		//jtTable=new JTable(smModel); 		
 		this.add(jp1,BorderLayout.NORTH);
 		this.add(jsp,BorderLayout.CENTER);
@@ -80,61 +130,23 @@ public class StuManager extends JFrame implements ActionListener {
 		if(e.getSource()==jb1)
 		{
 			System.out.println("执行查询");
-			String stuId=this.jtf1.getText().trim();
-			smModel=new StuModel();
-			if(stuId.isEmpty())
-			{
-				String sql="select * from stus";	
-				smModel.QuyStu(sql);
-			}
-			else 
-			{
-				String sql="select * from stus where StuID=?";
-				String[] paras={stuId};	
-				smModel.QuyStu(sql,paras);
-			}					
+			String name=this.jtf1.getText().trim();
+			String sql="select * from stu where stuname='"+name+"'";
+			StuModel smModel=new StuModel();			
 			jtTable.setModel(smModel); 
 		}
 		else if(e.getSource()==jb2)
 		{
 			System.out.println("执行添加");
 			StuAddDialog sadAddDialog=new StuAddDialog(this, "新增信息", true);
-			smModel=new StuModel();
-			smModel.QuyStu("select * from stus ");
-			jtTable.setModel(smModel);
 		}
 		else if(e.getSource()==jb3)
 		{
 			System.out.println("执行修改");
-			int rownum=jtTable.getSelectedRow();
-			if(rownum== -1)
-			{
-				JOptionPane.showMessageDialog(this, "请选择一行");				
-				return;
-			}
-			StuUpdDialog sadUpdDialog=new StuUpdDialog(this, "修改信息", true, smModel, rownum);
-			smModel=new StuModel();
-			smModel.QuyStu("select * from stus ");
-			jtTable.setModel(smModel);
 		}
 		else if(e.getSource()==jb4)
 		{
 			System.out.println("执行删除");
-			int rownum=jtTable.getSelectedRow();
-			if(rownum== -1)
-			{
-				JOptionPane.showMessageDialog(this, "请选择一行");				
-				return;
-			}
-			String stuId=(String)smModel.getValueAt(rownum, 0);
-			String sql="delete from stus where StuId=?";
-			String[] paras={stuId};
-			StuModel temp=new StuModel();
-			temp.UpdStu(sql, paras);
-			smModel=new StuModel();
-			smModel.QuyStu("select * from stus ");
-			jtTable.setModel(smModel);
 		}
 	}
-	
 }

@@ -1,8 +1,10 @@
 package test1;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
-public class Demo_test1 {
+public class Judge {
 
 	
 	/**
